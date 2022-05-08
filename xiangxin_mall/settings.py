@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+5ryz&be(1r2@m)&k^rhdqd#3vzwx6cn$m#fdy#g(4awhnng&1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['xiangxin.mall']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'imagekit',
+    'apps.users',
 ]
 
 MIDDLEWARE = [
