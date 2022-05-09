@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 #定义用户模型类
 from django.contrib.auth.models import AbstractUser
-class USer(AbstractUser):
+class User(AbstractUser):
     mobile=models.CharField(max_length=11,unique=True)
 
     class Meta:
