@@ -38,7 +38,7 @@ var vm = new Vue({
                 var url = this.host + '/usernames/' + this.username + '/count/';
                 axios.defaults.withCredentials = true
                 axios.get(url, {
-                    responseType: 'jsonp',
+                    responseType: 'json',
                     withCredentials:true,
                 })
                     .then(response => {
