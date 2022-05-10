@@ -39,7 +39,7 @@ class registerNewView(View):
         mobile=user.get('mobile')
         allow=user.get('allow')
 
-        if not all(username,password,password2,mobile,allow):
+        if not all([username,password,password2,mobile,allow]):
             return JsonResponse({'code':400,'errmsg':'Incomplete parameters'})
 
         if not re.match('[a-zA-Z0-9_-]{5,20}',username):
@@ -51,12 +51,13 @@ class registerNewView(View):
         if not re.match('1[345789]\d{9}',mobile):
             return JsonResponse({'code':400,'errmsg':'Incorrect mobilephone number'})
 
-        if not 8<len(password)<20:
+        if not 8<=len(password)<=20:
             return JsonResponse({'code':400,'errmsg':'Incorrect password length'})
 
         if not allow:
             return JsonResponse({'code':400,'errmsg':'Agreement not agreed'})
 
 
-
+        user_save=User(username=username,password=password,mobile=mobile)
+        user_save.save()
         return JsonResponse({'code':0,'errmsg':'ok'})
