@@ -7,12 +7,13 @@ from matplotlib.pyplot import cla
 from soupsieve import match
 
 from apps.front import views
+from django.contrib.auth import login
 
 # Create your views here.
 from .models import User
 from django.views import View
 
-
+#检查用户名是否已存在
 class usernameCountView(View):
 
     def get(self,request,username):
@@ -21,14 +22,14 @@ class usernameCountView(View):
         count = User.objects.filter(username=username).count()
         return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
 
-
+#检查手机号是否已存在
 class mobileCountView(View):
     def get(self,request,mobile):
 
         count = User.objects.filter(mobile=mobile).count()
         return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
 
-
+#新用户注册api
 class registerNewView(View):
     def post(self,request):
         data=request.body.decode('utf-8')
@@ -60,4 +61,7 @@ class registerNewView(View):
 
         user_save=User(username=username,password=password,mobile=mobile)
         user_save.save()
+
+        login(request,user_save)
+
         return JsonResponse({'code':0,'errmsg':'ok'})

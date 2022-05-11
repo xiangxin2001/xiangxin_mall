@@ -2,11 +2,14 @@
 from django.shortcuts import render
 from django.views import View
 
-def registerView(request):
+def registerHtmlView(request):
     return render(request,'register.html')
 
-def loginView(request):
+def loginHtmlView(request):
     return render(request,'login.html')
 
-def indexView(request):
+def indexHtmlView(request):
     return render(request,'index.html')
+
+def cartHtmlView(request):
+    return render(request,'cart.html')
