@@ -7,7 +7,7 @@ from matplotlib.pyplot import cla
 from soupsieve import match
 
 from apps.front import views
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 
 # Create your views here.
 from .models import User
@@ -29,7 +29,7 @@ class mobileCountView(View):
         count = User.objects.filter(mobile=mobile).count()
         return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
 
-#新用户注册api
+#新用户注册API
 class registerNewView(View):
     def post(self,request):
         data=request.body.decode('utf-8')
@@ -65,3 +65,32 @@ class registerNewView(View):
         login(request,user_save)
 
         return JsonResponse({'code':0,'errmsg':'ok'})
+
+#用户登录API
+class userloginView(View):
+    def post(self,request):
+        data=json.loads(request.body.decode())
+        username=data.get('username')
+        password=data.get('password')
+        remembered=data.get('remembered')
+
+        if not all([username,password]):
+            return JsonResponse({'code':400,'errmsg':'Incomplete parameters'})
+        
+        user=authenticate(username=username,password=password)
+        if not user:
+            return JsonResponse({'code':400,'errmsg':'Incorrect user name or password'})
+
+        login(request,user)
+
+        if remembered:
+            request.session.set_expiry(None)
+        else:
+            request.session.set_expiry(0)
+
+
+        return JsonResponse({'code':0,'errmsg':'ok'})
+
+
+
+
