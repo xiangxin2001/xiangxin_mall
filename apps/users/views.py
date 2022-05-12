@@ -4,17 +4,18 @@ from click import password_option
 from django.http import JsonResponse
 from django.shortcuts import render
 from matplotlib.pyplot import cla
+from requests import delete
 from soupsieve import match
 
 from apps.front import views
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 
 # Create your views here.
 from .models import User
 from django.views import View
 
 #检查用户名是否已存在
-class usernameCountView(View):
+class usernameCountAPI(View):
 
     def get(self,request,username):
 
@@ -23,14 +24,14 @@ class usernameCountView(View):
         return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
 
 #检查手机号是否已存在
-class mobileCountView(View):
+class mobileCountAPI(View):
     def get(self,request,mobile):
 
         count = User.objects.filter(mobile=mobile).count()
         return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
 
 #新用户注册API
-class registerNewView(View):
+class registerNewAPI(View):
     def post(self,request):
         data=request.body.decode('utf-8')
         user=json.loads(data)
@@ -58,16 +59,15 @@ class registerNewView(View):
         if not allow:
             return JsonResponse({'code':400,'errmsg':'Agreement not agreed'})
 
-
-        user_save=User(username=username,password=password,mobile=mobile)
-        user_save.save()
+        #保存用户注册信息到数据库
+        user_save=User.objects.create_user(username=username,password=password,mobile=mobile)
 
         login(request,user_save)
 
         return JsonResponse({'code':0,'errmsg':'ok'})
 
 #用户登录API
-class userloginView(View):
+class userloginAPI(View):
     def post(self,request):
         data=json.loads(request.body.decode())
         username=data.get('username')
@@ -76,21 +76,49 @@ class userloginView(View):
 
         if not all([username,password]):
             return JsonResponse({'code':400,'errmsg':'Incomplete parameters'})
+
         
+        #判断是否是手机号登录
+        if re.match('1[345789]\d{9}',username):
+            User.USERNAME_FIELD='mobile'
+        else:
+            User.USERNAME_FIELD='username'
+        
+        #登录验证
         user=authenticate(username=username,password=password)
         if not user:
             return JsonResponse({'code':400,'errmsg':'Incorrect user name or password'})
 
-        login(request,user)
-
+        
+        #是否登录保持
         if remembered:
             request.session.set_expiry(None)
         else:
             request.session.set_expiry(0)
+        
+        login(request,user)
 
+        #获取登录用户信息
+        a=object()
+        if User.USERNAME_FIELD=='mobile':
+            a=User.objects.get(mobile=username)
+        else:
+            a=User.objects.get(username=username)
 
-        return JsonResponse({'code':0,'errmsg':'ok'})
+        #制作响应信息
+        response=JsonResponse({'code':0,'errmsg':'ok'})
+        response.set_cookie('username',a.username)
 
+        return response
 
+#用户退出API
+class logoutAPI(View):
+    def delete(self,request):
+        logout(request)
+
+        response=JsonResponse({'code':0,'errmsg':'ok'})
+        response.delete_cookie('username')
+
+        return response
 
 
