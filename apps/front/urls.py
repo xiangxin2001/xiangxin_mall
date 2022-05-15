@@ -10,5 +10,7 @@ urlpatterns = [
     path('index.html',views.indexHtmlView),
     path('cart',views.cartHtmlView),
     path('cart.html',views.cartHtmlView),
+    path('user_center_info',views.user_center_infoHtmlView),
+    path('user_center_info.html',views.user_center_infoHtmlView),
     
 ]

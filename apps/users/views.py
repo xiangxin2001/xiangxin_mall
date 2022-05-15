@@ -9,7 +9,7 @@ from soupsieve import match
 
 from apps.front import views
 from django.contrib.auth import login,authenticate,logout
-
+from utils.view import LoginRequiredJSONMixin
 # Create your views here.
 from .models import User
 from django.views import View
@@ -122,3 +122,15 @@ class logoutAPI(View):
         return response
 
 
+class centerViewAPI(LoginRequiredJSONMixin,View):
+
+    def get(self,request):
+        user=request.user
+
+        info={
+            'username':user.username,
+            'mobile':user.mobile
+        }
+
+
+        return JsonResponse({'code':0,'errmsg':'ok','info_data':info})

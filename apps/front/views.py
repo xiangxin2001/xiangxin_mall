@@ -13,3 +13,6 @@ def indexHtmlView(request):
 
 def cartHtmlView(request):
     return render(request,'cart.html')
+
+def user_center_infoHtmlView(request):
+    return render(request,'user_center_info.html')

@@ -4,12 +4,6 @@ var vm = new Vue({
         host,
         username: '',
         mobile: '',
-        email: '',
-        email_active: false,
-        set_email: false,
-        send_email_btn_disabled: false,
-        send_email_tip: '重新发送验证邮件',
-        email_error: false,
         histories: [],
     },
     mounted: function () {
@@ -66,44 +60,13 @@ var vm = new Vue({
                     }
                     this.username = response.data.info_data.username;
                     this.mobile = response.data.info_data.mobile;
-                    this.email = response.data.info_data.email;
-                    this.email_active = response.data.info_data.email_active;
+                    
                 })
                 .catch(error => {
-                    this.set_email = false
+
                     location.href = 'login.html'
                 })
         },
-        // 保存email
-        save_email: function () {
-            var re = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
-            if (re.test(this.email)) {
-                this.email_error = false;
-            } else {
-                this.email_error = true;
-                return;
-            }
-
-            // 进行前端页面请求:
-            var url = this.host + '/emails/'
-            axios.put(url,
-                {
-                    email: this.email
-                },
-                {
-                    responseType: 'json',
-                    withCredentials:true,
-                })
-                // 成功请求的回调
-                .then(response => {
-                    this.set_email = false;
-                    this.send_email_btn_disabled = true;
-                    this.send_email_tip = '已发送验证邮件'
-                })
-                // 失败请求的回调:
-                .catch(error => {
-                    alert('请求失败, 失败原因:', error);
-                });
-        }
+       
     }
 });

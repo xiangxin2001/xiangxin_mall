@@ -35,7 +35,7 @@
     </div>
 
     <div class="search_bar clearfix">
-        <a href="index.html" class="logo fl"><img src="../static/images/logo.png"></a>
+        <a href="index.html" class="logo fl"><img src="../static/images/logo02.png"></a>
         <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
         <form method="get" action="/search.html" class="search_con fr mt40">
             <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
@@ -59,25 +59,6 @@
                         <ul class="user_info_list">
                             <li><span>用户名：</span>{{ username }}</li>
                             <li><span>手机号：</span>{{ mobile }}</li>
-                            <li>
-                                <span>Email：</span>
-                                <div v-if="set_email">
-                                    <input v-model="email" type="email" name="email">
-                                    <input @click="save_email" type="button" name="" value="保 存">
-                                    <input @click="set_email=false" type="reset" name="" value="取 消">
-                                    <div v-if="email_error">邮箱格式错误</div>
-                                </div>
-                                <div v-else-if="email">
-                                    {{ email }}
-                                    <div v-if="email_active">已验证</div>
-                                    <div v-else>
-                                        待验证<input @click="save_email" :disabled="send_email_btn_disabled" type="button" :value="send_email_tip">
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <input @click="set_email=true" type="button" name="" value="设 置">
-                                </div>
-                            </li>
                         </ul>
                 </div>
 
