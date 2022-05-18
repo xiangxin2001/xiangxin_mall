@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'imagekit',
     'apps.users',
+    'apps.front',
+    'apps.address',
     'corsheaders',
 ]
 

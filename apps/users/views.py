@@ -122,6 +122,7 @@ class logoutAPI(View):
         return response
 
 
+#用户中心进入API
 class centerViewAPI(LoginRequiredJSONMixin,View):
 
     def get(self,request):

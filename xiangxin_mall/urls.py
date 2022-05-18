@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('apps.users.urls')),
     path('',include('apps.front.urls')),
+    path('',include('apps.address.urls')),
+    
 ]
 
 
