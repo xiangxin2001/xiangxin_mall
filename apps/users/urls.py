@@ -8,4 +8,5 @@ urlpatterns = [
     path('login/userlogin/',views.userloginAPI.as_view()),
     path('logout/',views.logoutAPI.as_view()),
     path('info/',views.centerViewAPI.as_view()),
+    path('password/',views.passwordChangeAPI.as_view())
 ]

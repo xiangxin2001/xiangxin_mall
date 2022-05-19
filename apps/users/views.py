@@ -1,11 +1,7 @@
 import json
 import re
-from click import password_option
 from django.http import JsonResponse
-from django.shortcuts import render
-from matplotlib.pyplot import cla
-from requests import delete
-from soupsieve import match
+
 
 from apps.front import views
 from django.contrib.auth import login,authenticate,logout
@@ -141,3 +137,28 @@ class centerViewAPI(LoginRequiredJSONMixin,View):
 
 
         return JsonResponse({'code':0,'errmsg':'ok','info_data':info})
+
+
+#用户修改密码
+class passwordChangeAPI(View):
+    def put(self,request):
+        user=request.user
+        data = request.body.decode('utf-8')
+        try:
+            datajson = json.loads(data)
+        except Exception as e:
+            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
+        old_password=datajson.get('old_password')
+        new_password=datajson.get('new_password')
+        new_cpassword=datajson.get('new_password2')
+        if not user.check_password(old_password):
+            return JsonResponse({"code":400,"errmsg":"Inconrent password"})
+        if new_cpassword!=new_password:
+            return JsonResponse({"code":400,"errmsg":"Inconrent data"})
+
+        user.set_password(new_password)
+        user.save()
+
+        return JsonResponse({'code':0,'errmsg':'ok'})
+
+
