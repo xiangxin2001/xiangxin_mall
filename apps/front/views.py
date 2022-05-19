@@ -11,9 +11,6 @@ def loginHtmlView(request):
 def indexHtmlView(request):
     return render(request,'index.html')
 
-def cartHtmlView(request):
-    return render(request,'cart.html')
-
 def user_center_infoHtmlView(request):
     return render(request,'user_center_info.html')
 
@@ -22,6 +19,9 @@ def user_center_siteHtmlView(request):
 
 def user_center_passHtmlView(request):
     return render(request,'user_center_pass.html')
+
+def user_center_orderHtmlView(request):
+    return render(request,'user_center_order.html')
 
 def searchHtmlView(request):
     return render(request,'search.html')

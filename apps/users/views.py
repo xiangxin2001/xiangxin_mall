@@ -34,7 +34,10 @@ class mobileCountAPI(View):
 class registerNewAPI(View):
     def post(self,request):
         data=request.body.decode('utf-8')
-        user=json.loads(data)
+        try:
+            user=json.loads(data)
+        except Exception as e:
+            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
         username=user.get('username')
         password=user.get('password')
         password2=user.get('password2')
@@ -69,7 +72,10 @@ class registerNewAPI(View):
 #用户登录API
 class userloginAPI(View):
     def post(self,request):
-        data=json.loads(request.body.decode())
+        try:
+            data=json.loads(request.body.decode())
+        except Exception as e:
+            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
         username=data.get('username')
         password=data.get('password')
         remembered=data.get('remembered')

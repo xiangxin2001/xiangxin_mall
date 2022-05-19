@@ -15,13 +15,13 @@ var vm = new Vue({
             province_id: '',
             city_id: '',
             district_id: '',
-            place: '',
+            detail_address: '',
             mobile: '',
             tel: '',
             email: '',
         },
         error_receiver: false,
-        error_place: false,
+        error_detail_address: false,
         error_mobile: false,
         error_email: false,
         editing_address_index: '', // 正在编辑的地址在addresses中的下标，''表示新增地址
@@ -104,7 +104,7 @@ var vm = new Vue({
         clear_all_errors: function () {
             this.error_receiver = false;
             this.error_mobile = false;
-            this.error_place = false;
+            this.error_detail_address = false;
             this.error_email = false;
         },
         // 展示新增地址界面
@@ -115,7 +115,7 @@ var vm = new Vue({
             this.form_address.province_id = '';
             this.form_address.city_id = '';
             this.form_address.district_id = '';
-            this.form_address.place = '';
+            this.form_address.detail_address = '';
             this.form_address.mobile = '';
             this.form_address.tel = '';
             this.form_address.email = '';
@@ -136,11 +136,11 @@ var vm = new Vue({
                 this.error_receiver = false;
             }
         },
-        check_place: function () {
-            if (!this.form_address.place) {
-                this.error_place = true;
+        check_detail_address: function () {
+            if (!this.form_address.detail_address) {
+                this.error_detail_address = true;
             } else {
-                this.error_place = false;
+                this.error_detail_address = false;
             }
         },
         check_mobile: function () {
@@ -163,7 +163,7 @@ var vm = new Vue({
         },
         // 保存地址
         save_address: function () {
-            if (this.error_receiver || this.error_place || this.error_mobile || this.error_email || !this.form_address.province_id || !this.form_address.city_id || !this.form_address.district_id) {
+            if (this.error_receiver || this.error_detail_address || this.error_mobile || this.error_email || !this.form_address.province_id || !this.form_address.city_id || !this.form_address.district_id) {
                 alert('信息填写有误！');
             } else {
                 this.form_address.title = this.form_address.receiver;
