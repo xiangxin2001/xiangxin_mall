@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.front',
     'apps.address',
+    'apps.contents',
     'corsheaders',
 ]
 
