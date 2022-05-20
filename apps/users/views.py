@@ -1,39 +1,32 @@
-import json
 import re
-from django.http import JsonResponse
-
-
-from apps.front import views
 from django.contrib.auth import login,authenticate,logout
+from apps.address.models import Address
 from utils.view import LoginRequiredJSONMixin
 # Create your views here.
-from .models import User
-from django.views import View
+from .models import User,UserModelSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 #检查用户名是否已存在
-class usernameCountAPI(View):
+class usernameCountAPI(APIView):
 
     def get(self,request,username):
 
 
         count = User.objects.filter(username=username).count()
-        return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
+        return Response({'code':0,'count':count,'errmsg':'ok'})
 
 #检查手机号是否已存在
-class mobileCountAPI(View):
+class mobileCountAPI(APIView):
     def get(self,request,mobile):
 
         count = User.objects.filter(mobile=mobile).count()
-        return JsonResponse({'code':0,'count':count,'errmsg':'ok'})
+        return Response({'code':0,'count':count,'errmsg':'ok'})
 
 #新用户注册API
-class registerNewAPI(View):
+class registerNewAPI(APIView):
     def post(self,request):
-        data=request.body.decode('utf-8')
-        try:
-            user=json.loads(data)
-        except Exception as e:
-            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
+        user=request.data
         username=user.get('username')
         password=user.get('password')
         password2=user.get('password2')
@@ -41,43 +34,40 @@ class registerNewAPI(View):
         allow=user.get('allow')
 
         if not all([username,password,password2,mobile,allow]):
-            return JsonResponse({'code':400,'errmsg':'Incomplete parameters'})
+            return Response({'code':400,'errmsg':'Incomplete parameters'})
 
         if not re.match('[a-zA-Z0-9_-]{5,20}',username):
-            return JsonResponse({'code':400,'errmsg':'Incorrect user name'})
+            return Response({'code':400,'errmsg':'Incorrect user name'})
         
         if not password==password2:
-            return JsonResponse({'code':400,'errmsg':'Password error'})
+            return Response({'code':400,'errmsg':'Password error'})
 
         if not re.match('1[345789]\d{9}',mobile):
-            return JsonResponse({'code':400,'errmsg':'Incorrect mobilephone number'})
+            return Response({'code':400,'errmsg':'Incorrect mobilephone number'})
 
         if not 8<=len(password)<=20:
-            return JsonResponse({'code':400,'errmsg':'Incorrect password length'})
+            return Response({'code':400,'errmsg':'Incorrect password length'})
 
         if not allow:
-            return JsonResponse({'code':400,'errmsg':'Agreement not agreed'})
+            return Response({'code':400,'errmsg':'Agreement not agreed'})
 
         #保存用户注册信息到数据库
         user_save=User.objects.create_user(username=username,password=password,mobile=mobile)
 
         login(request,user_save)
 
-        return JsonResponse({'code':0,'errmsg':'ok'})
+        return Response({'code':0,'errmsg':'ok'})
 
 #用户登录API
-class userloginAPI(View):
+class userloginAPI(APIView):
     def post(self,request):
-        try:
-            data=json.loads(request.body.decode())
-        except Exception as e:
-            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
+        data=request.data
         username=data.get('username')
         password=data.get('password')
         remembered=data.get('remembered')
 
         if not all([username,password]):
-            return JsonResponse({'code':400,'errmsg':'Incomplete parameters'})
+            return Response({'code':400,'errmsg':'Incomplete parameters'})
 
         
         #判断是否是手机号登录
@@ -89,7 +79,7 @@ class userloginAPI(View):
         #登录验证
         user=authenticate(username=username,password=password)
         if not user:
-            return JsonResponse({'code':400,'errmsg':'Incorrect user name or password'})
+            return Response({'code':400,'errmsg':'Incorrect user name or password'})
 
         
         #是否登录保持
@@ -108,57 +98,50 @@ class userloginAPI(View):
             a=User.objects.get(username=username)
 
         #制作响应信息
-        response=JsonResponse({'code':0,'errmsg':'ok'})
+        response=Response({'code':0,'errmsg':'ok'})
         response.set_cookie('username',a.username)
 
         return response
 
 #用户退出API
-class logoutAPI(View):
+class logoutAPI(APIView):
     def delete(self,request):
         logout(request)
 
-        response=JsonResponse({'code':0,'errmsg':'ok'})
+        response=Response({'code':0,'errmsg':'ok'})
         response.delete_cookie('username')
 
         return response
 
 
 #用户中心进入API
-class centerViewAPI(LoginRequiredJSONMixin,View):
+class centerViewAPI(LoginRequiredJSONMixin,APIView):
 
     def get(self,request):
         user=request.user
-
-        info={
-            'username':user.username,
-            'mobile':user.mobile
-        }
+        address=Address.objects.filter(user=user)
+        addstr=str(address[0].province.name+address[0].city.name+address[0].district.name+address[0].detail_address)
+        info=UserModelSerializer(instance=user)
 
 
-        return JsonResponse({'code':0,'errmsg':'ok','info_data':info})
+        return Response({'code':0,'errmsg':'ok','info_data':info.data,'address':addstr})
 
 
 #用户修改密码
-class passwordChangeAPI(View):
+class passwordChangeAPI(APIView):
     def put(self,request):
         user=request.user
-        data = request.body.decode('utf-8')
-        try:
-            datajson = json.loads(data)
-        except Exception as e:
-            return JsonResponse({"code":400,"errmsg":"Inconrent json data"})
-        old_password=datajson.get('old_password')
-        new_password=datajson.get('new_password')
-        new_cpassword=datajson.get('new_password2')
+        data = request.data
+        old_password=data.get('old_password')
+        new_password=data.get('new_password')
+        new_cpassword=data.get('new_password2')
         if not user.check_password(old_password):
-            return JsonResponse({"code":400,"errmsg":"Inconrent password"})
+            return Response({"code":400,"errmsg":"Inconrent password"})
         if new_cpassword!=new_password:
-            return JsonResponse({"code":400,"errmsg":"Inconrent data"})
+            return Response({"code":400,"errmsg":"Inconrent data"})
 
         user.set_password(new_password)
         user.save()
-
-        return JsonResponse({'code':0,'errmsg':'ok'})
+        return Response({'code':0,'errmsg':'ok'}).delete_cookie('username')
 
 

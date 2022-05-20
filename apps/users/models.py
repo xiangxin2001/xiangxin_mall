@@ -1,4 +1,6 @@
+from attr import fields
 from django.db import models
+from rest_framework.serializers import ModelSerializer
 # Create your models here.
 #定义用户模型类
 from django.contrib.auth.models import AbstractUser
@@ -10,3 +12,8 @@ class User(AbstractUser):
         verbose_name='用户管理'
         verbose_name_plural=verbose_name
 
+class UserModelSerializer(ModelSerializer):
+
+    class Meta:
+        model=User
+        fields='__all__'

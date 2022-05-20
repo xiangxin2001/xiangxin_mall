@@ -194,6 +194,7 @@ var vm = new Vue({
                         .then(response => {
                             this.addresses[this.editing_address_index - 1] = response.data.address;
                             this.is_show_edit = false;
+                            location.href = 'user_center_site.html'
                         })
                         .catch(error => {
                             alert(error.response.data.detail || error.response.data.message);
@@ -237,23 +238,6 @@ var vm = new Vue({
                     } else {
                         // alert(error.response.data.detail);
                     }
-                })
-        },
-        // 设置默认地址
-        set_default: function (index) {
-            var url = this.host + '/addresses/' + this.addresses[index].id + '/default/'
-             axios.put(url, {}, {
-                        responseType: 'json',
-                        withCredentials:true,
-                    })
-                .then(response => {
-                    // this.default_address_id = this.addresses[index].id;
-                    if (response.data.code == 0) {
-                        location.href = 'http://www.meiduo.site:8080/user_center_site.html'
-                    }
-                })
-                .catch(error => {
-                    console.log(error.response.data);
                 })
         },
         // 展示编辑标题

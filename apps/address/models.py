@@ -1,6 +1,6 @@
+from pyexpat import model
 from django.db import models
-from django.forms import BooleanField
-from matplotlib.pyplot import title
+from rest_framework.serializers import ModelSerializer
 # Create your models here.
 #区域类
 class Area(models.Model):
@@ -15,6 +15,14 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AreaModelSerializer(ModelSerializer):
+
+    class Meta:
+        model=Area
+        fields='__all__'
+
 
 #地址类
 
@@ -36,3 +44,9 @@ class Address(models.Model):
         verbose_name = '用户地址'
         verbose_name_plural = verbose_name
         ordering = ['user']
+
+class AddressModelSerializer(ModelSerializer):
+
+    class Meta:
+        model=Address
+        fields='__all__'

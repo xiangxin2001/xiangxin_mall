@@ -57,7 +57,7 @@ var vm = new Vue({
                     if (response.data.code == 0) {
                         location.href = 'login.html'
                     } else if (response.data.status == 400) {
-                        // TODO:如果有问题, 需要报错/ 没写的:
+                        console.log(response.data.errmsg)
 
                     }
                 })

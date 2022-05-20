@@ -4,6 +4,7 @@ var vm = new Vue({
         host,
         username: '',
         mobile: '',
+        address:'',
         histories: [],
     },
     mounted: function () {
@@ -60,6 +61,7 @@ var vm = new Vue({
                     }
                     this.username = response.data.info_data.username;
                     this.mobile = response.data.info_data.mobile;
+                    this.address = response.data.address;
                     
                 })
                 .catch(error => {
