@@ -22,18 +22,18 @@ var vm = new Vue({
         this.get_cart()
     },
     methods: {
-        // get_category_data:function(){
-        //     var url = this.host + '/content_category/';
-        //     axios.get(url, {
-        //         responseType: 'json',
-        //     })
-        //         .then(response => {
-        //             this.content_category = response.data.content_category
-        //         })
-        //         .catch(error => {
-        //             console.log(error.response);
-        //         })
-        // },
+        get_category_data:function(){
+            var url = this.host + '/content_category/';
+            axios.get(url, {
+                responseType: 'json',
+            })
+                .then(response => {
+                    this.content_category = response.data.content_category
+                })
+                .catch(error => {
+                    console.log(error.response);
+                })
+        },
         // 退出登录按钮
         logoutfunc: function () {
             var url = this.host + '/logout/';

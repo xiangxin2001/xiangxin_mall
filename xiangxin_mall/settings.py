@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.front',
     'apps.address',
+    'apps.contents',
+    'apps.goods',
     'corsheaders',
 ]
 
@@ -195,3 +197,4 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
 AUTH_USER_MODEL = 'users.User'
 
+DEFAULT_FILE_STORAGE = 'utils.fastdfs.storage.MyStorage'
