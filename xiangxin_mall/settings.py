@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.contents',
     'apps.goods',
     'corsheaders',
+    'haystack',
 ]
 
 MIDDLEWARE = [
