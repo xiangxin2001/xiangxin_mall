@@ -8,4 +8,6 @@ urlpatterns = [
     path('search/',views.SKUSearchView()),
     path('detail/<sku_id>/',views.DetailView.as_view()),
 
+    path('goods/<sku_id>.html/',views.DetailView.as_view()),
+
 ]

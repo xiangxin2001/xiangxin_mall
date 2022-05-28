@@ -94,18 +94,17 @@ class SKUSearchView(SearchView):
 
 
 class DetailView(APIView):
-
+    #商品详情页
     def get(self,request,sku_id):
         try:
             sku=SKU.objects.get(id=sku_id)
         except SKU.DoesNotExist:
-            pass
-        # 1.分类数据
+            return Response({"code":404,"errmag":"not exist"},status=404)
+
         categories=get_categories()
-        # 2.面包屑
+        
         breadcrumb=get_breadcrumb(sku.category)
-        # 3.SKU信息
-        # 4.规格信息
+  
         goods_specs=get_goods_specs(sku)
 
         context = {

@@ -3,9 +3,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>香辛商城-商品详情</title>
-	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
-	<script type="text/javascript" src="../static/js/jquery-1.12.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/main.css">
+	<script type="text/javascript" src="../../static/js/jquery-1.12.4.min.js"></script>
 	<script>
 		$(function(){
 			var $tab_btn = $('.detail_tab li');
@@ -45,7 +45,7 @@
 	</div>
 
 	<div class="search_bar clearfix">
-		<a href="/index.html" class="logo fl"><img src="/images/logo.png"></a>
+		<a href="/index.html" class="logo fl"><img src="/static/images/logo02.png"></a>
 		<div class="search_wrap fl">
 			<form method="get" action="/search.html" class="search_con">
 				<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
@@ -242,6 +242,12 @@
 		<p>CopyRight © 2022 杭州香辛无限无责任个人 All Rights Reserved</p>
         <p>电话：666-****888    浙ICP备*******1号</p>
 	</div>
+	<script type="text/javascript">
+        var price = {{sku.price}};
+        var cat = {{ sku.category.id }};
+    </script>
+    <script type="text/javascript" src="http://xiangxin.mall:8000/static/js/common.js"></script>
+    <script type="text/javascript" src="http://xiangxin.mall:8000/static/js/detail.js"></script>
 
 </body>
 </html>

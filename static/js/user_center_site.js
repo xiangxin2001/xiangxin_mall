@@ -212,7 +212,7 @@ var vm = new Vue({
                     // // 从数组中移除地址
                     // this.addresses.splice(index, 1);
                     if (response.data.code == 0) {
-                        location.href = 'http://www.meiduo.site:8080/user_center_site.html'
+                        location.href = 'http://xiangxin.mall:8000/user_center_site.html'
                     }
 
                 })
