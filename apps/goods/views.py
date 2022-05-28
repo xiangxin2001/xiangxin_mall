@@ -10,6 +10,7 @@ from utils.goods import get_breadcrumb
 from apps.goods.models import SKU
 from utils.goods import get_goods_specs
 from haystack.views import SearchView
+from django.http import JsonResponse
 
 #主页视图
 class IndexView(APIView):
@@ -87,7 +88,7 @@ class SKUSearchView(SearchView):
                 'count': context['page'].paginator.count
             })
 
-        return Response(sku_list,safe=False)
+        return JsonResponse(sku_list,safe=False)
 
 
 

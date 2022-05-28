@@ -199,3 +199,12 @@ SESSION_CACHE_ALIAS = "session"
 AUTH_USER_MODEL = 'users.User'
 
 DEFAULT_FILE_STORAGE = 'utils.fastdfs.storage.MyStorage'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://192.168.47.151:9200/',
+        'INDEX_NAME': 'xiangxin',
+    },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 6
