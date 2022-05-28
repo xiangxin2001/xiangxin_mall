@@ -113,6 +113,7 @@ class DetailView(APIView):
             'breadcrumb': breadcrumb,
             'sku': sku,
             'specs': goods_specs,
+            
 
         }
         return render(request,'detail.html',context)

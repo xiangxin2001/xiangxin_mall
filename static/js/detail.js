@@ -98,8 +98,8 @@ var vm = new Vue({
         },
         // 从路径中提取sku_id
         get_sku_id: function(){
-            var re = /^\/goods\/(\d+).html$/;
-            this.sku_id = document.location.pathname.match(re)[1];
+            var re = /\d(?=.html)/;
+            this.sku_id = document.location.pathname.match(re)[0];
         },
         // 减小数值
         on_minus: function(){
