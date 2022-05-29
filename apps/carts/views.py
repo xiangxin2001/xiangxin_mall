@@ -203,5 +203,6 @@ class CartsView(APIView):
             new_carts=base64.b64encode(pickle.dumps(carts))
 
             return Response({'code':0,'errmsg':'ok'}).set_cookie('carts',new_carts.decode(),max_age=14*24*3600)
+    
 
 

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'haystack',
     'apps.carts',
+    'apps.orders',
 ]
 
 MIDDLEWARE = [

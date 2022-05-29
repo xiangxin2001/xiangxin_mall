@@ -12,9 +12,9 @@ var vm = new Vue({
         this.username = getCookie('username');
 
         // 获取个人信息:
-        this.get_person_info()
+        this.get_person_info();
 
-        this.get_history()
+        this.get_history();
     },
     methods: {
           // 退出登录按钮

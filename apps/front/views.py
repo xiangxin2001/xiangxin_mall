@@ -1,6 +1,5 @@
 
 from django.shortcuts import render
-from django.views import View
 from django.middleware.csrf import get_token
 
 def registerHtmlView(request):
@@ -42,3 +41,9 @@ def listHtmlView(request):
 
 def oauth_callbackHtmlView(request):
     return render(request,'oauth_callback.html')
+
+def place_orderHtmlView(request):
+    return render(request,'place_order.html')
+
+def order_successHtmlView(request):
+    return render(request,'order_success.html')

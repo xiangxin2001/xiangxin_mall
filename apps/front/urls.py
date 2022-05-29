@@ -26,4 +26,8 @@ urlpatterns = [
     path('list.html',views.listHtmlView),
     path('oauth_callback',views.oauth_callbackHtmlView),
     path('oauth_callback.html',views.oauth_callbackHtmlView),
+    path('place_order',views.place_orderHtmlView),
+    path('place_order.html',views.place_orderHtmlView),
+    path('order_success',views.order_successHtmlView),
+    path('order_success.html',views.order_successHtmlView),
 ]

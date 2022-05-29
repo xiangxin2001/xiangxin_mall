@@ -5,41 +5,49 @@
 	<title>香辛商城-用户中心</title>
 	<link rel="stylesheet" type="text/css" href="../static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+	<script type="text/javascript" src="../static/js/host.js"></script>
+    <script type="text/javascript" src="../static/js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="../static/js/axios-0.18.0.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-1.12.4.min.js"></script>
+
 </head>
 <body>
+<div id="app" v-cloak>
 	{% verbatim %}
-	<div class="header_con">
-		<div class="header">
-			<div class="welcome fl">欢迎来到香辛商城!</div>
-			<div class="fr">
-				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
-				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
-				<div class="user_link fl">
-					<span>|</span>
-					<a href="user_center_info.html">用户中心</a>
-					<span>|</span>
-					<a href="cart.html">我的购物车</a>
-					<span>|</span>
-					<a href="user_center_order.html">我的订单</a>
-				</div>
-			</div>
-		</div>		
-	</div>
-
-	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="../static/images/logo02.png"></a>
-		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr mt40">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
-	</div>
+	<div class="header_con" >
+        <div class="header">
+            <div class="welcome fl">欢迎来到香辛商城!</div>
+            <div class="fr">
+                <div v-if="username" class="login_btn fl">
+                    欢迎您：<em>{{ username }}</em>
+                    <span>|</span>
+                    <a @click="logoutfunc">退出</a>
+                </div>
+                <div v-else class="login_btn fl">
+                    <a href="login.html">登录</a>
+                    <span>|</span>
+                    <a href="register.html">注册</a>
+                </div>
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="user_center_info.html">用户中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的购物车</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="../static/images/logo02.png"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+        <div class="search_con fr mt40">
+            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
+            <input type="button" class="input_btn fr" name="" value="搜索">
+        </div>
+    </div>
 
 	<div class="main_con clearfix">
 		<div class="left_menu_con clearfix">
@@ -52,73 +60,36 @@
 			</ul>
 		</div>
 		<div class="right_content clearfix">
+			<div v-if="if_order==1">
 				<h3 class="common_title2">全部订单</h3>
-				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
+				<ul v-for="order in orders_list" class="order_list_th w978 clearfix">
+					<li class="col01">{{ order.time }}</li>
+					<li class="col02">订单号：{{ order.order_id }}</li>
+					<table class="order_list_table w980">
+						<tbody>
+							<tr>
+								<td width="55%">
+									<ul v-for="good in order.goods" class="order_goods_list clearfix">					
+										<li class="col01"><img :src=" good.image "></li>
+										<li class="col02">{{good.name}}<em>{{good.price}}元</em></li>	
+										<li class="col03">{{good.count}}</li>
+										<li class="col03">{{good.total_amount}}元</li>	
+									</ul>
+								</td>
+								<td width="15%">{{ order.total_amount }}元</td>
+								<td width="15%">{{order.pay_method}}</td>
+								<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
+							</tr>
+						</tbody>
+					</table>
 				</ul>
 
-				<table class="order_list_table w980">
-					<tbody>
-						<tr>
-							<td width="55%">
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="../static/images/goods/goods001.jpg"></li>
-									<li class="col02">360手机 N6 Pro 全网通<em>2688.00元</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">2688.00元</li>	
-								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="../static/images/goods/goods001.jpg"></li>
-									<li class="col02">360手机 N6 Pro 全网通<em>2688.00元</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">2688.00元</li>	
-								</ul>
-							</td>
-							<td width="15%">5276.00元</td>
-							<td width="15%">支付宝</td>
-							<td width="15%"><a href="#" class="oper_btn">去付款</a></td>
-						</tr>
-					</tbody>
-				</table>
 				
-				<ul class="order_list_th w978 clearfix">
-					<li class="col01">2016-8-21 17:36:24</li>
-					<li class="col02">订单号：56872934</li>
-				</ul>
-				<table class="order_list_table w980">
-					<tbody>
-						<tr>
-							<td width="55%">
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="../static/images/goods/goods002.jpg"></li>
-									<li class="col02">iphoneX N6 Pro 全网通<em>7899.00元</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">7899.00元</li>	
-								</ul>
-								<ul class="order_goods_list clearfix">					
-									<li class="col01"><img src="../static/images/goods/goods002.jpg"></li>
-									<li class="col02">iphoneX N6 Pro 全网通<em>7899.00元</em></li>	
-									<li class="col03">1</li>
-									<li class="col04">7899.00元</li>	
-								</ul>
-							</td>
-							<td width="15%">15798.00元</td>
-							<td width="15%">货到付款</td>
-							<td width="15%"><a href="#" class="oper_btn">去评价</a></td>
-						</tr>
-					</tbody>
-				</table>
-
-				<div class="pagenation">
-					<a href="#"><上一页</a>
-					<a href="#" class="active">1</a>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<a href="#">4</a>
-					<a href="#">5</a>
-					<a href="#">下一页></a>
-				</div>
+				
+			</div>
+			<div v-else>
+				暂无订单
+			</div>
 		</div>
 	</div>
 
@@ -137,6 +108,10 @@
 		<p>CopyRight © 2022 杭州香辛无限无责任个人 All Rights Reserved</p>
         <p>电话：666-****888    浙ICP备*******1号</p>
 	</div>
+
+</div>
 	{% endverbatim %}
+	<script type="text/javascript" src="../static/js/common.js"></script>
+    <script type="text/javascript" src="../static/js/user_center_order.js"></script>
 </body>
 </html>
