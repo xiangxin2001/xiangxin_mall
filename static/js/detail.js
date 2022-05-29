@@ -33,7 +33,6 @@ var vm = new Vue({
         }
     },
     mounted: function(){
-        // 添加用户浏览历史记录
         this.username=getCookie('username');
         this.get_sku_id();
 
@@ -57,22 +56,6 @@ var vm = new Vue({
         this.detail_visit();
     },
     methods: {
-        // 新增记录商品详情的访问量
-        detail_visit(){
-            if (this.sku_id) {
-                var url = this.host + '/detail/visit/' + this.cat + '/';
-                axios.post(url, {}, {
-                    responseType: 'json',
-                    withCredentials:true,
-                })
-                    .then(response => {
-                        console.log(response.data);
-                    })
-                    .catch(error => {
-                        console.log(error.response);
-                    });
-            }
-        },
          // 退出登录按钮
         logoutfunc: function () {
             var url = this.host + '/logout/';
@@ -108,7 +91,7 @@ var vm = new Vue({
                 this.sku_count--;
             }
         },
-        // 减小数值
+        // 增加数值
         on_addition: function(){
             if (this.sku_count < 20) {
                 this.sku_count++;
@@ -126,7 +109,7 @@ var vm = new Vue({
                 })
                 .then(response => {
                     alert('添加购物车成功');
-                    this.cart_total_count += response.data.count;
+                    this.get_cart();
                 })
                 .catch(error => {
                     console.log(error);
