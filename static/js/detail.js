@@ -3,7 +3,7 @@ var vm = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         host,
-        username: sessionStorage.username || localStorage.username,
+        username: '',
         token: sessionStorage.token || localStorage.token,
         tab_content: {
             detail: true,
@@ -34,6 +34,7 @@ var vm = new Vue({
     },
     mounted: function(){
         // 添加用户浏览历史记录
+        this.username=getCookie('username');
         this.get_sku_id();
 
         axios.post(this.host+'/browse_histories/', {

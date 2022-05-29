@@ -43,7 +43,7 @@ var vm = new Vue({
     },
     mounted: function(){
 
-        this.username = getCookie('username')
+        this.username = getCookie('username');
 
         // 获取购物车数据
         axios.get(this.host+'/carts/', {
@@ -62,10 +62,18 @@ var vm = new Vue({
     },
     methods: {
         // 退出
-        logoutfunc: function(){
-            sessionStorage.clear();
-            localStorage.clear();
-            location.href = '/login.html';
+       logoutfunc: function () {
+            var url = this.host + '/logout/';
+            axios.delete(url, {
+                responseType: 'json',
+                withCredentials:true,
+            })
+                .then(response => {
+                    location.href = 'login.html';
+                })
+                .catch(error => {
+                    console.log(error.response);
+                })
         },
         // 减少操作
         on_minus: function(index){
