@@ -64,33 +64,19 @@
 			</ul>
 		</div>
 
+		{% verbatim %}
 		<div class="guest_cart fr">
-		<a href="#" class="cart_name fl">我的购物车</a>
-		<div class="goods_count fl" id="show_count">15</div>
-
-		<ul class="cart_goods_show">
-			<li>
-				<img src="#" alt="商品图片">
-				<h4>商品名称手机</h4>
-				<div>4</div>
-			</li>
-			<li>
-				<img src="#" alt="商品图片">
-				<h4>商品名称手机</h4>
-				<div>5</div>
-			</li>
-			<li>
-				<img src="#" alt="商品图片">
-				<h4>商品名称手机</h4>
-				<div>6</div>
-			</li>
-			<li>
-				<img src="#" alt="商品图片">
-				<h4>商品名称手机</h4>
-				<div>6</div>
-			</li>
-		</ul>
-	</div>
+            <a href="/cart.html" class="cart_name fl">我的购物车</a>
+            <div class="goods_count fl" id="show_count">[[ cart_total_count ]]</div>
+            <ul class="cart_goods_show">
+                <li v-for="cart in carts">
+                    <img :src="cart.default_image_url" alt="商品图片">
+                    <h4>[[ cart.name ]]</h4>
+                    <div>[[ cart.count ]]</div>
+                </li>
+            </ul>
+		</div>
+        {% endverbatim %}
 
 	</div>
 

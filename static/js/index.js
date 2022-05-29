@@ -13,13 +13,11 @@ var vm = new Vue({
     },
     mounted(){
         // 获取购物车数据
-        // this.get_carts();
+        this.get_cart();
 
          // 获取cookie中的用户名
     	this.username = getCookie('username');
 
-
-        this.get_cart()
     },
     methods: {
         get_category_data:function(){
@@ -50,7 +48,7 @@ var vm = new Vue({
         },
         // 获取购物车数据
        get_cart(){
-        let url = this.host + '/carts/simple/';
+        let url = this.host + '/carts/';
         axios.get(url, {
             responseType: 'json',
             withCredentials:true,
