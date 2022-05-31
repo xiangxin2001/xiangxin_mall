@@ -11,7 +11,7 @@ from apps.goods.models import SKU
 from utils.goods import get_goods_specs
 from haystack.views import SearchView
 from django.http import JsonResponse
-
+from django.middleware.csrf import get_token
 #主页视图
 class IndexView(APIView):
 
@@ -28,6 +28,7 @@ class IndexView(APIView):
             'categories': categories,
             'contents': contents,
         }
+        get_token(request)
         return render(request,'index.html',context)
 
 
